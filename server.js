@@ -15,6 +15,17 @@ const supabase = createClient(
 app.use(cors());
 app.use(express.json());
 
+const setCSPHeader = (req, res, next) => {
+    // Specify the allowed font sources including 'data:' URI
+    const fontSources = "'self' data:";
+
+    // Set the CSP header in the response
+    res.setHeader('Content-Security-Policy', `default-src 'none'; font-src ${fontSources}`);
+
+    // Pass control to the next middleware function
+    next();
+};
+
 //send email
 
 const transporter = nodemailer.createTransport({
